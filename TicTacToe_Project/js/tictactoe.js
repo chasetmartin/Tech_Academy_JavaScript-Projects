@@ -14,11 +14,11 @@ function placeXorO(squareNumber){
         //This condition checks who's turn it is.
         if (activePlayer === 'X') {
             //If activePlayer is equal to X, the x.png is placed in HTML
-            select.style.backgroundImage = 'url("images/x.png")';
+            select.style.backgroundImage = 'url("images/X.jpg")';
             //Active player may only be X or O, so if not X it must be O
         } else {
             //If activePlayer is euqal to O, the o.png is placed in HTML
-            select.style.backgroundImage = 'url("images/o.png")';
+            select.style.backgroundImage = 'url("images/O.jpg")';
         }
         //squareNumber and activePlayer are concatenated together and added to array.
         selectedSquares.push(squareNumber + activePlayer);
@@ -34,7 +34,7 @@ function placeXorO(squareNumber){
             activePlayer = 'X';
         }
         //This function plays placement sound.
-        audio('./media/place.mp3');
+        audio('./media/tone.mp3');
         //This condition checks to see if it is the computers turn.
         if (activePlayer === 'O') {
             //This function disables the clicking for computers turn.
@@ -105,7 +105,7 @@ function checkwinConditions() {
     //9 squares are selected the code executes.
     else if (selectedSquares.length >= 9) {
         //This function playes the tie game sound.
-        audio('./media/tie.mp3');
+        audio('./media/splash.mp3');
         //This function sets a .3 second timer before the resetGame is called.
         setTimeout(function() { resetGame(); }, 500);
     }
@@ -202,9 +202,22 @@ function drawWinLine(coordX1, coordY1, coordX2, coordY2) {
     //This line disallows clicking while the win sound is playing
     disableClick();
     //This line plays the win sounds.
-    audio('./media/winGame.mp3');
+    audio('./media/crowd.mp3');
     //This line calls our main animation loop.
     animateLineDrawing();
     //Wait one second, then clear canvas, reset game, allows clicking again.
     setTimeout(function() { clear(); resetGame(); }, 1000);
+}
+
+//This function resets the game in the event of a tie or win.
+function resetGame() {
+    //This loop iterates through each HTML square element.
+    for (let i = 0; i < 9; i++) {
+        //This variable gets teh HTML element i.
+        let square = document.getElementById(String(i));
+        //this removes our elements background image.
+        square.style.backgroundImage = '';
+    }
+    //This resets our array so it is empty and we can start over.
+    selectedSquares = [];
 }
